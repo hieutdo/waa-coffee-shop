@@ -37,7 +37,7 @@ public class OrderService {
         return orderRepository.findOrderByOrderDateBetween(minDate, maxDate);
     }
 
-    public Order findById(int id) {
+    public Order findById(Long id) {
         return orderRepository.findOne(id);
     }
 

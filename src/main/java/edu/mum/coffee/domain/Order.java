@@ -12,7 +12,7 @@ public class Order {
 
     @Id
     @GeneratedValue
-    private int id;
+    private Long id;
     @Temporal(TemporalType.DATE)
     private Date orderDate;
 
@@ -21,8 +21,12 @@ public class Order {
     @OneToOne
     private Person person;
 
-    public int getId() {
+    public Long getId() {
         return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
     }
 
     public List<Orderline> getOrderLines() {

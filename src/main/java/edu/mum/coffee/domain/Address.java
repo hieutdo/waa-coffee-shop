@@ -9,11 +9,19 @@ public class Address {
 
     @Id
     @GeneratedValue
-    private int id;
+    private Long id;
     private String city;
     private String state;
     private String country;
     private String zipcode;
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
 
     public String getCity() {
         return city;

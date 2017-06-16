@@ -24,7 +24,7 @@ public class ProductService {
         productRepository.delete(product);
     }
 
-    public Product getProduct(int productId) {
+    public Product getProduct(Long productId) {
         return productRepository.findOne(productId);
     }
 

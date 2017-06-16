@@ -8,12 +8,20 @@ public class Orderline {
 
     @Id
     @GeneratedValue
-    private int id;
+    private Long id;
     private int quantity;
     @OneToOne
     private Product product;
     @ManyToOne
     private Order order;
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
 
     public int getQuantity() {
         return quantity;

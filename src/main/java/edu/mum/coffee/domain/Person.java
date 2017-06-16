@@ -7,7 +7,7 @@ import javax.persistence.*;
 public class Person {
     @Id
     @GeneratedValue
-    private long id;
+    private Long id;
     private String firstName;
     private String lastName;
     private String email;
@@ -16,8 +16,12 @@ public class Person {
     private String phone;
     private boolean enable;
 
-    public long getId() {
+    public Long getId() {
         return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
     }
 
     public boolean isEnable() {
