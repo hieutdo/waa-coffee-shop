@@ -82,7 +82,7 @@ public class ProductServiceTest {
 
     @Test
     public void testGetAllProduct() {
-        List<Product> saved = productService.getAllProduct();
+        List<Product> saved = productService.getAllProducts();
         if (saved.size() < TEST_NumberOfProducts - 1) {
             fail("Not storing or retrieving Products");
         }
@@ -120,7 +120,7 @@ public class ProductServiceTest {
             try {
                 List<Product> products = productService.findByTextSearch(testProduct[i].getProductName());
                 for (Product product : products) {
-                    productService.delete(product);
+                    productService.delete(product.getId());
                 }
             } catch (Exception e) {
                 // Do not log exceptions
