@@ -32,11 +32,12 @@ public class ProductResource {
         return ResponseEntity.created(new URI("/api/products/" + result.getId())).body(result);
     }
 
-    @PutMapping
-    public ResponseEntity<Product> updateProduct(@RequestBody @Valid Product product) throws URISyntaxException {
-        if (product.getId() == null) {
-            return createProduct(product);
+    @PutMapping("/{id}")
+    public ResponseEntity<Product> updateProduct(@PathVariable Long id, @RequestBody @Valid Product product) throws URISyntaxException {
+        if (productService.getProduct(id) == null) {
+            throw new HttpNotFoundErrorException("Cannot update because the product with id " + id + " does not exist");
         }
+        product.setId(id);
         return ResponseEntity.ok(productService.save(product));
     }
 
@@ -57,7 +58,7 @@ public class ProductResource {
     @DeleteMapping("/{id}")
     public ResponseEntity<Product> deleteProduct(@PathVariable Long id) {
         if (productService.getProduct(id) == null) {
-            throw new HttpClientErrorException("Product with id " + id + " does not exist");
+            throw new HttpNotFoundErrorException("Cannot delete because the product with id " + id + " does not exist");
         }
         productService.delete(id);
         return ResponseEntity.ok().build();
