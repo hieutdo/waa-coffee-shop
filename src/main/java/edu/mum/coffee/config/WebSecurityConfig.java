@@ -15,21 +15,18 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     protected void configure(HttpSecurity http) throws Exception {
         http
                 .authorizeRequests()
-                .antMatchers("/", "/home", "/index", "/api/**").permitAll()
+                .antMatchers("/", "/webjars/**", "/css/**", "/home", "/index", "/api/**").permitAll()
                 .anyRequest().authenticated()
                 .and()
-                .formLogin()
-                .permitAll()
+                .formLogin().loginPage("/login").defaultSuccessUrl("/").permitAll()
                 .and()
-                .logout()
-                .logoutRequestMatcher(new AntPathRequestMatcher("/logout"))
-                .logoutSuccessUrl("/")
-                .permitAll()
+                .logout().logoutRequestMatcher(new AntPathRequestMatcher("/logout")).permitAll()
                 .and().csrf().disable();
     }
 
     @Autowired
     public void configureGlobal(AuthenticationManagerBuilder auth) throws Exception {
-        auth.inMemoryAuthentication().withUser("super").password("pw").roles("ADMIN");
+        auth.inMemoryAuthentication().withUser("user").password("user").roles("USER");
+        auth.inMemoryAuthentication().withUser("admin").password("admin").roles("ADMIN");
     }
 }
