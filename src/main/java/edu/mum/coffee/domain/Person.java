@@ -16,6 +16,18 @@ public class Person {
     private String phone;
     private boolean enable;
 
+    public Person() {
+    }
+
+    public Person(String firstName, String lastName, String email, Address address, String phone, boolean enable) {
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.email = email;
+        this.address = address;
+        this.phone = phone;
+        this.enable = enable;
+    }
+
     public Long getId() {
         return id;
     }
@@ -72,4 +84,16 @@ public class Person {
         this.phone = phone;
     }
 
+    @Override
+    public String toString() {
+        return "Person{" +
+                "id=" + id +
+                ", firstName='" + firstName + '\'' +
+                ", lastName='" + lastName + '\'' +
+                ", email='" + email + '\'' +
+                ", address=" + address +
+                ", phone='" + phone + '\'' +
+                ", enable=" + enable +
+                '}';
+    }
 }

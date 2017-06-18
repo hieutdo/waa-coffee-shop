@@ -83,4 +83,13 @@ public class Order {
         orderLines.clear();
     }
 
+    @Override
+    public String toString() {
+        return "Order{" +
+                "id=" + id +
+                ", orderDate=" + orderDate +
+                ", orderLines=" + orderLines +
+                ", person=" + person +
+                '}';
+    }
 }
