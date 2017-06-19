@@ -24,12 +24,12 @@
               <td th:text="${#numbers.formatDecimal(product.price, 1, 2)}">##.##</td>
               <td th:text="${product.productType}">BREAKFAST</td>
               <td sec:authorize="hasRole('ROLE_ADMIN')">
-                <button type="button" class="btn btn-primary" title="Edit">
+                <a th:href="@{/products/edit/{id}(id=${product.id})}" class="btn btn-primary" title="Edit">
                   <i class="glyphicon glyphicon-pencil"></i>
-                </button>
-                <button type="button" class="btn btn-danger" title="Delete">
+                </a>
+                <a th:href="@{/products/delete/{id}(id=${product.id})}" class="btn btn-danger" title="Delete">
                   <i class="glyphicon glyphicon-trash"></i>
-                </button>
+                </a>
               </td>
             </tr>
           </tbody>
