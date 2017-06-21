@@ -17,7 +17,7 @@ public class Order {
     private Date orderDate;
 
     @OneToMany(mappedBy = "order", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
-    private List<Orderline> orderLines = new ArrayList<Orderline>();
+    private List<Orderline> orderLines = new ArrayList<>();
     @OneToOne
     private Person person;
 

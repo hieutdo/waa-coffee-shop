@@ -117,7 +117,7 @@ public class RestClient {
         listAllProducts();
 
         listAllPersons();
-        Long personId = createPerson(new Person("John", "Doe", "john.doe@mail.com", new Address("Fairfield", "IA", "US", "52556"), "123456789", true));
+        Long personId = createPerson(new Person("john.doe", "John", "Doe", "john.doe@mail.com", "123456789", new Address("Fairfield", "IA", "US", "52556")));
         Person person = getOnePerson(personId);
         person.setPhone("987654321");
         updatePerson(personId, person);

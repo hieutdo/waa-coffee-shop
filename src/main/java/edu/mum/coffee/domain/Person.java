@@ -1,6 +1,9 @@
 package edu.mum.coffee.domain;
 
+import org.hibernate.validator.constraints.NotEmpty;
+
 import javax.persistence.*;
+import java.util.Set;
 
 @Entity
 @Inheritance(strategy = InheritanceType.JOINED)
@@ -8,24 +11,46 @@ public class Person {
     @Id
     @GeneratedValue
     private Long id;
+
+    @NotEmpty
+    private String username;
+
     private String firstName;
+
     private String lastName;
+
+    @NotEmpty
     private String email;
+
+    @Transient
+    private String password;
+
+    private String encryptedPassword;
+
+    private String phone;
+
+    private Boolean enable = true;
+
     @OneToOne(cascade = CascadeType.ALL)
     private Address address;
-    private String phone;
-    private boolean enable;
+
+    @ManyToMany(fetch = FetchType.EAGER)
+    @JoinTable(
+            joinColumns = @JoinColumn(name = "person_id", referencedColumnName = "id"),
+            inverseJoinColumns = @JoinColumn(name = "role_id", referencedColumnName = "id")
+    )
+    private Set<Role> roles;
 
     public Person() {
     }
 
-    public Person(String firstName, String lastName, String email, Address address, String phone, boolean enable) {
+    public Person(String username, String firstName, String lastName, String email, String phone, Address address) {
+        this.username = username;
         this.firstName = firstName;
         this.lastName = lastName;
         this.email = email;
-        this.address = address;
         this.phone = phone;
-        this.enable = enable;
+        this.address = address;
     }
 
     public Long getId() {
@@ -36,12 +61,12 @@ public class Person {
         this.id = id;
     }
 
-    public boolean isEnable() {
-        return enable;
+    public String getUsername() {
+        return username;
     }
 
-    public void setEnable(boolean enable) {
-        this.enable = enable;
+    public void setUsername(String username) {
+        this.username = username;
     }
 
     public String getFirstName() {
@@ -68,12 +93,20 @@ public class Person {
         this.email = email;
     }
 
-    public Address getAddress() {
-        return address;
+    public String getPassword() {
+        return password;
     }
 
-    public void setAddress(Address address) {
-        this.address = address;
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
+    public String getEncryptedPassword() {
+        return encryptedPassword;
+    }
+
+    public void setEncryptedPassword(String encryptedPassword) {
+        this.encryptedPassword = encryptedPassword;
     }
 
     public String getPhone() {
@@ -82,6 +115,44 @@ public class Person {
 
     public void setPhone(String phone) {
         this.phone = phone;
+    }
+
+    public Boolean getEnable() {
+        return enable;
+    }
+
+    public void setEnable(Boolean enable) {
+        this.enable = enable;
+    }
+
+    public Address getAddress() {
+        return address;
+    }
+
+    public void setAddress(Address address) {
+        this.address = address;
+    }
+
+    public Set<Role> getRoles() {
+        return roles;
+    }
+
+    public void setRoles(Set<Role> roles) {
+        this.roles = roles;
+    }
+
+    public void addRole(Role role) {
+        if (!this.roles.contains(role)) {
+            this.roles.add(role);
+        }
+        if (!role.getPersons().contains(this)) {
+            role.getPersons().add(this);
+        }
+    }
+
+    public void removeRole(Role role) {
+        this.roles.remove(role);
+        role.getPersons().remove(this);
     }
 
     @Override
