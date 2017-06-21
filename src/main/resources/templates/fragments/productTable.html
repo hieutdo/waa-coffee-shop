@@ -10,7 +10,10 @@
           </a>
           <span class="lead">List of Products</span>
         </div>
-        <table class="table table-hover">
+        <div class="panel-body" th:if="${#lists.isEmpty(products)}">
+          <div class="alert alert-warning" style="margin-bottom: 0">No products found.</div>
+        </div>
+        <table class="table table-hover" th:if="${!#lists.isEmpty(products)}">
           <thead>
             <tr>
               <th width="70">ID</th>
@@ -29,10 +32,10 @@
               <td th:text="${product.price}">##.##</td>
               <td th:text="${product.productType}">BREAKFAST</td>
               <td sec:authorize="hasRole('ROLE_ADMIN')">
-                <a th:href="@{/products/edit/{id}(id=${product.id})}" class="btn btn-primary" title="Edit">
+                <a th:href="@{/products/edit/{id}(id=${product.id})}" class="btn btn-primary btn-sm" title="Edit">
                   <i class="glyphicon glyphicon-pencil"></i>
                 </a>
-                <a th:href="@{/products/delete/{id}(id=${product.id})}" class="btn btn-danger" title="Delete">
+                <a th:href="@{/products/delete/{id}(id=${product.id})}" class="btn btn-danger btn-sm" title="Delete">
                   <i class="glyphicon glyphicon-trash"></i>
                 </a>
               </td>
