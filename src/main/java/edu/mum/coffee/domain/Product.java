@@ -1,6 +1,10 @@
 package edu.mum.coffee.domain;
 
+import org.hibernate.validator.constraints.NotEmpty;
+
 import javax.persistence.*;
+import javax.validation.constraints.Min;
+import javax.validation.constraints.NotNull;
 
 @Entity
 public class Product {
@@ -8,10 +12,18 @@ public class Product {
     @Id
     @GeneratedValue
     private Long id;
+
+    @NotEmpty(message = "Product name cannot be empty")
     private String productName;
+
     private String description;
-    private double price;
+
+    @NotNull(message = "Product price cannot be empty")
+    @Min(value = 0, message = "Product price must be greater than or equal to 0")
+    private Double price;
+
     @Enumerated(EnumType.STRING)
+    @NotNull(message = "Product type cannot be empty")
     private ProductType productType;
 
     public Product() {
@@ -50,11 +62,11 @@ public class Product {
         this.description = description;
     }
 
-    public double getPrice() {
+    public Double getPrice() {
         return price;
     }
 
-    public void setPrice(double price) {
+    public void setPrice(Double price) {
         this.price = price;
     }
 

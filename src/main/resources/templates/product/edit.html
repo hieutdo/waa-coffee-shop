@@ -7,15 +7,23 @@
   <body>
     <div class="container">
       <!--/*/ <th:block th:include="fragments/header :: header"></th:block> /*/-->
-      <form th:action="@{/products}" method="post" th:object="${product}">
+      <form th:action="${product.id != null} ? @{/products/edit/{id}(id=${product.id})} : @{/products/add}"
+            method="post" th:object="${product}">
         <input type="hidden" th:field="*{id}" />
         <div class="panel panel-default">
-          <div class="panel-heading lead">Edit Product: <span th:text="*{productName}"></span></div>
+          <div class="panel-heading lead">
+            <span th:text="${product.id == null} ? 'Create Product' : 'Edit Product: ' + *{productName}"></span></div>
           <fieldset>
-            <div class="col-lg-12 form-group">
-              <label class="col-lg-2" for="name">Name</label>
+            <div class="col-lg-12" th:if="${message != null}">
+              <div class="alert alert-success" th:text="${message}"></div>
+            </div>
+            <div class="col-lg-12 form-group" th:classappend="${#fields.hasErrors('productName')} ? 'has-error'">
+              <label class="col-lg-2 control-label" for="name">Name</label>
               <div class="col-lg-4">
                 <input type="text" id="name" class="form-control" th:field="*{productName}" />
+                <small class="help-block"
+                       th:if="${#fields.hasErrors('productName')}"
+                       th:errors="*{productName}"></small>
               </div>
             </div>
             <div class="col-lg-12 form-group">
@@ -24,14 +32,17 @@
                 <textarea id="description" class="form-control" th:field="*{description}" rows="5"></textarea>
               </div>
             </div>
-            <div class="col-lg-12 form-group">
-              <label class="col-lg-2" for="price">Price</label>
+            <div class="col-lg-12 form-group" th:classappend="${#fields.hasErrors('price')} ? 'has-error'">
+              <label class="col-lg-2 control-label" for="price">Price</label>
               <div class="col-lg-4">
                 <input type="text" id="price" class="form-control" th:field="*{price}" />
+                <small class="help-block"
+                       th:if="${#fields.hasErrors('price')}"
+                       th:errors="*{price}"></small>
               </div>
             </div>
-            <div class=" col-lg-12 form-group">
-              <label class="col-lg-2" for="productType">Type</label>
+            <div class="col-lg-12 form-group" th:classappend="${#fields.hasErrors('productType')} ? 'has-error'">
+              <label class="col-lg-2 control-label" for="productType">Type</label>
               <div class="col-lg-4">
                 <select id="productType" class="form-control" th:field="*{productType}">
                   <option th:value="${null}">-Select-</option>
@@ -39,6 +50,9 @@
                           th:value="${type}"
                           th:text="${type.displayName}"></option>
                 </select>
+                <small class="help-block"
+                       th:if="${#fields.hasErrors('productType')}"
+                       th:errors="*{productType}"></small>
               </div>
             </div>
             <div class="col-lg-12 form-group">
