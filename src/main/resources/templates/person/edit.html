@@ -10,8 +10,6 @@
       <form th:action="${person.id != null} ? @{/persons/edit/{id}(id=${person.id})} : @{/persons/add}"
             method="post" th:object="${person}">
         <input type="hidden" th:field="*{id}" />
-        <input type="hidden" th:field="*{password}" />
-        <input type="hidden" th:field="*{passwordConfirm}" />
         <div class="panel panel-default">
           <div class="panel-heading lead">
             <span th:text="${person.id == null} ? 'Create Person' : 'Edit Person: ' + *{username}"></span></div>
