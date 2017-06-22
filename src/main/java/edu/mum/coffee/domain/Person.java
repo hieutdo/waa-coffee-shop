@@ -26,11 +26,9 @@ public class Person {
     private String email;
 
     @Transient
-    @NotEmpty(message = "Password cannot be empty")
     private String password;
 
     @Transient
-    @NotEmpty(message = "Confirm password cannot be empty")
     private String passwordConfirm;
 
     private String encryptedPassword;

@@ -2,7 +2,6 @@ package edu.mum.coffee.controller;
 
 import edu.mum.coffee.domain.Person;
 import edu.mum.coffee.exception.EmailTakenException;
-import edu.mum.coffee.exception.PasswordConfirmNotMatch;
 import edu.mum.coffee.exception.UsernameTakenException;
 import edu.mum.coffee.service.PersonService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -41,6 +40,21 @@ public class RegisterController {
 
     @PostMapping
     public String register(@Valid Person person, BindingResult result, Model model, HttpServletRequest request) {
+        String password = person.getPassword();
+        String passwordConfirm = person.getPasswordConfirm();
+
+        if (password.isEmpty()) {
+            result.rejectValue("password", null, "Password cannot be empty");
+        }
+
+        if (passwordConfirm.isEmpty()) {
+            result.rejectValue("passwordConfirm", null, "Password confirm cannot be empty");
+        }
+
+        if (!password.equals(passwordConfirm)) {
+            result.rejectValue("passwordConfirm", null, "Password does not match");
+        }
+
         boolean hasError = result.hasErrors();
 
         if (!hasError) {
@@ -53,9 +67,6 @@ public class RegisterController {
             } catch (UsernameTakenException e) {
                 hasError = true;
                 result.rejectValue("username", "", "Username is already taken");
-            } catch (PasswordConfirmNotMatch e) {
-                hasError = true;
-                result.rejectValue("passwordConfirm", "", "Password does not match");
             }
         }
 

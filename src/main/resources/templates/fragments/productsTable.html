@@ -29,7 +29,7 @@
               <td th:text="${product.id}">ID</td>
               <td th:text="${product.productName}">Name</td>
               <td th:text="${product.description}">Description</td>
-              <td th:text="${product.price}">##.##</td>
+              <td th:text="${#numbers.formatDecimal(product.price, 1, 2)}">##.##</td>
               <td th:text="${product.productType}">BREAKFAST</td>
               <td sec:authorize="hasRole('ROLE_ADMIN')">
                 <a th:href="@{/products/edit/{id}(id=${product.id})}" class="btn btn-primary btn-sm" title="Edit">

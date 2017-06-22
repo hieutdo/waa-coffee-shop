@@ -14,6 +14,7 @@
             <tr>
               <th width="70">ID</th>
               <th width="120">Date</th>
+              <th width="200">Person</th>
               <th width="120">Total Amount</th>
               <th>Products</th>
             </tr>
@@ -22,7 +23,8 @@
             <tr th:each="order : ${orders}">
               <td th:text="${order.id}">ID</td>
               <td th:text="${order.orderDate}">Date</td>
-              <td th:text="${order.totalAmount}">##.##</td>
+              <td th:text="${order.person.firstName}">Date</td>
+              <td th:text="${#numbers.formatDecimal(order.totalAmount, 1, 2)}">##.##</td>
               <td>
                 <ul>
                   <li th:each="orderLine : ${order.orderLines}"
