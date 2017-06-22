@@ -23,7 +23,7 @@
             <tr th:each="order : ${orders}">
               <td th:text="${order.id}">ID</td>
               <td th:text="${order.orderDate}">Date</td>
-              <td th:text="${order.person.firstName}">Date</td>
+              <td th:text="${order.person.username}">Username</td>
               <td th:text="${#numbers.formatDecimal(order.totalAmount, 1, 2)}">##.##</td>
               <td>
                 <ul>

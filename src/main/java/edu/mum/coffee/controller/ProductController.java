@@ -35,7 +35,6 @@ public class ProductController {
         boolean isAdd = product.getId() == null;
 
         if (result.hasErrors()) {
-            model.addAttribute("product", product);
             return "product/edit";
         }
 
