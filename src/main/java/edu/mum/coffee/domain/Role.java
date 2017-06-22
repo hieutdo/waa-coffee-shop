@@ -6,6 +6,7 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.ManyToMany;
+import java.util.HashSet;
 import java.util.Set;
 
 @Entity
@@ -18,7 +19,14 @@ public class Role {
     private String role;
 
     @ManyToMany(mappedBy = "roles")
-    private Set<Person> persons;
+    private Set<Person> persons = new HashSet<>();
+
+    public Role() {
+    }
+
+    public Role(String role) {
+        this.role = role;
+    }
 
     public Long getId() {
         return id;
@@ -42,19 +50,5 @@ public class Role {
 
     public void setPersons(Set<Person> persons) {
         this.persons = persons;
-    }
-
-    public void addPerson(Person person) {
-        if (!this.persons.contains(person)) {
-            this.persons.add(person);
-        }
-        if (!person.getRoles().contains(this)) {
-            person.getRoles().add(this);
-        }
-    }
-
-    public void removePerson(Person person) {
-        this.persons.remove(person);
-        person.getRoles().remove(this);
     }
 }

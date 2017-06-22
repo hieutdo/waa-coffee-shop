@@ -1,6 +1,10 @@
 package edu.mum.coffee.service;
 
 import edu.mum.coffee.domain.Person;
+import edu.mum.coffee.domain.Role;
+import edu.mum.coffee.exception.EmailTakenException;
+import edu.mum.coffee.exception.PasswordConfirmNotMatch;
+import edu.mum.coffee.exception.UsernameTakenException;
 import edu.mum.coffee.repository.PersonRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -26,9 +30,6 @@ public class PersonService {
     }
 
     public Person savePerson(Person person) {
-        if (person.getPassword() != null) {
-            person.setEncryptedPassword(passwordEncoder.encode(person.getPassword()));
-        }
         return personRepository.save(person);
     }
 
@@ -52,4 +53,27 @@ public class PersonService {
         personRepository.delete(id);
     }
 
+    public Person registerNewPerson(Person person) throws EmailTakenException, UsernameTakenException, PasswordConfirmNotMatch {
+        String username = person.getUsername();
+        String email = person.getEmail();
+        String password = person.getPassword();
+        String passwordConfirm = person.getPasswordConfirm();
+
+        if (findByUsername(username) != null) {
+            throw new UsernameTakenException("Username is already taken: " + username);
+        }
+
+        if (!findByEmail(email).isEmpty()) {
+            throw new EmailTakenException("Email is already exists: " + email);
+        }
+
+        if (!password.equals(passwordConfirm)) {
+            throw new PasswordConfirmNotMatch();
+        }
+
+        person.addRole(new Role("ROLE_USER"));
+        person.setEncryptedPassword(passwordEncoder.encode(person.getPassword()));
+
+        return personRepository.save(person);
+    }
 }

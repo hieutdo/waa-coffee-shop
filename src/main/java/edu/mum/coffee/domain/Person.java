@@ -1,8 +1,10 @@
 package edu.mum.coffee.domain;
 
+import org.hibernate.validator.constraints.Email;
 import org.hibernate.validator.constraints.NotEmpty;
 
 import javax.persistence.*;
+import java.util.HashSet;
 import java.util.Set;
 
 @Entity
@@ -12,18 +14,24 @@ public class Person {
     @GeneratedValue
     private Long id;
 
-    @NotEmpty
+    @NotEmpty(message = "Username cannot be empty")
     private String username;
 
     private String firstName;
 
     private String lastName;
 
-    @NotEmpty
+    @NotEmpty(message = "Email cannot be empty")
+    @Email
     private String email;
 
     @Transient
+    @NotEmpty(message = "Password cannot be empty")
     private String password;
+
+    @Transient
+    @NotEmpty(message = "Confirm password cannot be empty")
+    private String passwordConfirm;
 
     private String encryptedPassword;
 
@@ -34,12 +42,12 @@ public class Person {
     @OneToOne(cascade = CascadeType.ALL)
     private Address address;
 
-    @ManyToMany(fetch = FetchType.EAGER)
+    @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     @JoinTable(
             joinColumns = @JoinColumn(name = "person_id", referencedColumnName = "id"),
             inverseJoinColumns = @JoinColumn(name = "role_id", referencedColumnName = "id")
     )
-    private Set<Role> roles;
+    private Set<Role> roles = new HashSet<>();
 
     public Person() {
     }
@@ -99,6 +107,14 @@ public class Person {
 
     public void setPassword(String password) {
         this.password = password;
+    }
+
+    public String getPasswordConfirm() {
+        return passwordConfirm;
+    }
+
+    public void setPasswordConfirm(String passwordConfirm) {
+        this.passwordConfirm = passwordConfirm;
     }
 
     public String getEncryptedPassword() {
