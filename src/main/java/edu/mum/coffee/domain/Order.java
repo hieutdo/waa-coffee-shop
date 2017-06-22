@@ -1,23 +1,28 @@
 package edu.mum.coffee.domain;
 
+import org.springframework.format.annotation.DateTimeFormat;
+
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 
 @Entity
-@Table(name = "OrderTable")
+@Table(name = "Orders")
 public class Order {
-
     @Id
     @GeneratedValue
     private Long id;
+
     @Temporal(TemporalType.DATE)
+    @DateTimeFormat(pattern = "dd/MM/yyyy")
+    @NotNull(message = "Order date cannot be empty")
     private Date orderDate;
 
     @OneToMany(mappedBy = "order", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
-    private List<Orderline> orderLines = new ArrayList<>();
+    private List<OrderLine> orderLines = new ArrayList<>();
+
     @OneToOne
     private Person person;
 
@@ -29,8 +34,8 @@ public class Order {
         this.id = id;
     }
 
-    public List<Orderline> getOrderLines() {
-        return Collections.unmodifiableList(orderLines);
+    public List<OrderLine> getOrderLines() {
+        return orderLines;
     }
 
     public Person getPerson() {
@@ -51,7 +56,7 @@ public class Order {
 
     public int getQuantity() {
         int quantity = 0;
-        for (Orderline ol : this.orderLines) {
+        for (OrderLine ol : this.orderLines) {
             quantity += ol.getQuantity();
         }
         return quantity;
@@ -60,25 +65,25 @@ public class Order {
     public double getTotalAmount() {
         double totalAmount = 0;
 
-        for (Orderline ol : this.orderLines) {
+        for (OrderLine ol : this.orderLines) {
             totalAmount += ol.getSubtotal();
         }
         return totalAmount;
     }
 
-    public void addOrderLine(Orderline orderLine) {
+    public void addOrderLine(OrderLine orderLine) {
         orderLine.setOrder(this);
         this.orderLines.add(orderLine);
     }
 
-    public void removeOrderLine(Orderline orderLine) {
+    public void removeOrderLine(OrderLine orderLine) {
         this.orderLines.remove(orderLine);
         orderLine.setOrder(null);
     }
 
     public void clearOrderLines() {
-        for (Orderline orderline : orderLines) {
-            orderline.setOrder(null);
+        for (OrderLine orderLine : orderLines) {
+            orderLine.setOrder(null);
         }
         orderLines.clear();
     }

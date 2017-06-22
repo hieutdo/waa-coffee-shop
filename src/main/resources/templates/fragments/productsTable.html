@@ -2,7 +2,7 @@
 <html xmlns:th="http://www.thymeleaf.org"
       xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
   <body>
-    <div th:fragment="productTable">
+    <div th:fragment="productsTable">
       <div class="panel panel-default">
         <div class="panel-heading">
           <a sec:authorize="hasRole('ROLE_ADMIN')" th:href="@{/products/add}" class="btn btn-success pull-right">

@@ -127,10 +127,10 @@ public class RestClient {
         order.setOrderDate(new Date());
         order.setPerson(person);
 
-        Orderline orderline = new Orderline();
-        orderline.setOrder(order);
-        orderline.setProduct(product);
-        orderline.setQuantity(10);
+        OrderLine orderLine = new OrderLine();
+        orderLine.setOrder(order);
+        orderLine.setProduct(product);
+        orderLine.setQuantity(10);
 
         createOrder(order);
         listAllOrders();

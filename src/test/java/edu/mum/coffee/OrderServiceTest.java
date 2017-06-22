@@ -58,7 +58,7 @@ public class OrderServiceTest {
             order.setPerson(testPerson[countPerson++ % TEST_NumberOfPersons]);
 
             for (int l = 0; l < TEST_NumberOfOrderLines; l++) {
-                Orderline line = new Orderline();
+                OrderLine line = new OrderLine();
                 line.setProduct(testProduct[countProduct++ % TEST_NumberOfProducts]);
                 line.setQuantity(countProduct);
                 order.addOrderLine(line);
@@ -102,7 +102,7 @@ public class OrderServiceTest {
         for (Order order : saved) {
             found = true;
             boolean inList = false;
-            for (Orderline line : order.getOrderLines()) {
+            for (OrderLine line : order.getOrderLines()) {
                 if (line.getProduct().getId() == testProduct[1].getId()) {
                     inList = true;
                     break;

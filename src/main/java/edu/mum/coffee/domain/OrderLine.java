@@ -1,17 +1,20 @@
 package edu.mum.coffee.domain;
 
 import javax.persistence.*;
+import javax.validation.constraints.Min;
 
 @Entity
-@Table(name = "Orderline")
-public class Orderline {
-
+public class OrderLine {
     @Id
     @GeneratedValue
     private Long id;
+
+    @Min(value = 1)
     private int quantity;
+
     @OneToOne
     private Product product;
+
     @ManyToOne
     private Order order;
 
@@ -57,7 +60,7 @@ public class Orderline {
 
     @Override
     public String toString() {
-        return "Orderline{" +
+        return "OrderLine{" +
                 "id=" + id +
                 ", quantity=" + quantity +
                 ", product=" + product +
